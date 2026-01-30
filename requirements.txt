@@ -1,3 +1,4 @@
+Python==3.12.10
 # AI & Computer Vision
 opencv-python-headless==4.10.0.84
 insightface==0.7.3

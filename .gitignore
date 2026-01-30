@@ -1,7 +1,22 @@
+# Python Environment
 venv/
 __pycache__/
 *.pyc
+
+# Local Configuration & Secrets
 .env
-data/samples/*
+
+# AI Models (External weights)
 models/*.pth
 models/*.onnx
+.insightface/
+onnx_models/
+
+# Data & Privacy
+data/registry.npz
+data/uploads/*
+data/temp_ela.jpg
+
+# Samples Management
+data/samples/*
+!data/samples/.gitkeep

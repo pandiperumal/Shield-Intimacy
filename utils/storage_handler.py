@@ -1,28 +1,29 @@
-import numpy as np
-import os
 import logging
+import os
+import numpy as np
 
 logger = logging.getLogger(__name__)
 
 DB_PATH = "data/registry.npz"
+SYSTEM_SALT = np.array([0.123, 0.456] * 256, dtype=np.float32)
 
 def save_vectors(vectors_list):
-    """Saves the list of 512-d embeddings to disk."""
     try:
-        # Convert list to a numpy array for efficient storage
-        arr = np.array(vectors_list, dtype=np.float32)
+        salted = [np.array(v, dtype=np.float32) + SYSTEM_SALT for v in vectors_list]
+        arr = np.array(salted, dtype=np.float32)
+        
+        os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
         np.savez_compressed(DB_PATH, embeddings=arr)
-        logger.info(f"✅ Registry saved to {DB_PATH}")
     except Exception as e:
-        logger.error(f"Failed to save registry: {e}")
+        logger.error(f"Registry persistence failure: {e}")
 
 def load_vectors():
-    """Loads embeddings from disk."""
     if not os.path.exists(DB_PATH):
         return []
     try:
         data = np.load(DB_PATH)
-        return data['embeddings'].tolist()
+        embeddings = data['embeddings']
+        return [v - SYSTEM_SALT for v in embeddings]
     except Exception as e:
-        logger.error(f"Failed to load registry: {e}")
+        logger.error(f"Registry retrieval failure: {e}")
         return []
