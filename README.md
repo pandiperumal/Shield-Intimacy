@@ -55,12 +55,12 @@ To process a full folder of images and view a summary table of results:
 
 Bash
 python -m tests.test_system --dir <path_to_image_folder>
-🔍 Verification & Testing
+ Verification & Testing
 To ensure the system is correctly deployed and the logic is intact:
 
 Logic Verification: python -m tests.test_logic (Runs unit tests on the 8 Ground Rules).
 
 Privacy Verification: python -m tests.test_salting (Confirms that biometric data is being correctly salted and retrieved).
 
-⚠️ Security Note
+ Security Note
 The data/registry.npz file contains the salted biometric signatures of protected users. While the data is obfuscated, this file should be treated as sensitive and excluded from public version control.
